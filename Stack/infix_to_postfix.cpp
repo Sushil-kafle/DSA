@@ -25,16 +25,10 @@ void push(char *stack, char c)
     top++;
     stack[top] = c;
 }
-bool contains(string optr, char c)
+bool contains_optr(char c)
 {
-    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '$')
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+
+    return (c == '+' || c == '-' || c == '*' || c == '/' || c == '$');
 }
 void pop_bracket(char *stack)
 {
@@ -67,10 +61,9 @@ int precedence(char a)
 }
 void pop_optr(char *stack, char a)
 {
-    string optr = "+-/*$";
     int i = top;
 
-    while (contains(optr, stack[i]) && precedence(a) <= precedence(stack[top]))
+    while (contains_optr(stack[i]) && precedence(a) <= precedence(stack[top]))
     {
         postfix += stack[top];
         top--;
@@ -82,7 +75,6 @@ void pop_optr(char *stack, char a)
 
 string convert(string infix, char *stack)
 {
-    string optr = "+-/*$";
     for (int i = 0; i < infix.length(); i++)
     {
         if (infix[i] == '(')
@@ -93,19 +85,12 @@ string convert(string infix, char *stack)
         {
             pop_bracket(stack);
         }
-        else if (contains(optr, infix[i]))
+        else if (contains_optr(infix[i]))
         {
-            if (contains(optr, stack[top]))
+            if (contains_optr(stack[top]))
             {
-                if (precedence(infix[i]) <= precedence(stack[top]))
-                {
-                    pop_optr(stack, infix[i]);
-                }
-                else
-                {
 
-                    push(stack, infix[i]);
-                }
+                (precedence(infix[i]) <= precedence(stack[top])) ? pop_optr(stack, infix[i]) : push(stack, infix[i]);
             }
             else
             {
