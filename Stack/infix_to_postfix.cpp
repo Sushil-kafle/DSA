@@ -75,6 +75,7 @@ void pop_optr(char *stack, char a)
 
 string convert(string infix, char *stack)
 {
+    infix = "(" + infix + ")";
     for (int i = 0; i < infix.length(); i++)
     {
         if (infix[i] == '(')
@@ -111,8 +112,6 @@ int main()
     char stack[20];
     cout << "Enter a infix expresion: " << endl;
     cin >> infix;
-
-    infix = "(" + infix + ")";
 
     postfix = convert(infix, stack);
     cout << "The required postfix is: " << endl;
